@@ -1,0 +1,14 @@
+{
+    "importOrder": [
+        "^app/(.*)$",
+        "^pages/(.*)$",
+        "^processes/(.*)$",
+        "^widgets/(.*)$",
+        "^features/(.*)$",
+        "^entities/(.*)$",
+        "^shared/(.*)$",
+        "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
+}
