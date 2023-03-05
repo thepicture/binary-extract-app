@@ -1,11 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload } from "antd";
-import {
-  RcFile,
-  UploadChangeParam,
-  UploadFile,
-  UploadProps,
-} from "antd/es/upload";
+import { UploadChangeParam, UploadFile, UploadProps } from "antd/es/upload";
 import JSZip from "jszip";
 
 import { parseBinary } from "./api";
@@ -15,17 +10,26 @@ export const UploadFiles = () => {
     info: UploadChangeParam<UploadFile>
   ) => {
     if (info.file.status === "done") {
-      const files = info.fileList as RcFile[];
+      const files = info.fileList as UploadFile[];
 
       const parsedFiles: File[] = [];
 
-      files.forEach((file) => parseBinary(file, parsedFiles));
+      await parseBinary(
+        Array.from(
+          new Uint8Array(
+            await files[files.length - 1].originFileObj!.arrayBuffer()
+          )
+        ),
+        parsedFiles
+      );
 
       const zip = new JSZip();
-      parsedFiles.forEach(async (file) =>
-        zip.file(file.name, await file.arrayBuffer())
-      );
-      zip.generateAsync({ type: "blob" }).then((content) => {
+
+      for (const file of parsedFiles) {
+        zip.file(file.name, await file.arrayBuffer());
+      }
+
+      await zip.generateAsync({ type: "blob" }).then((content) => {
         const url = URL.createObjectURL(content);
         const anchor = document.createElement("a");
         anchor.style.display = "none";
@@ -44,8 +48,8 @@ export const UploadFiles = () => {
   return (
     <Upload
       customRequest={({ onSuccess }) => onSuccess!("")}
-      multiple
       onChange={handleChange}
+      multiple={false}
     >
       <Button icon={<UploadOutlined />}>Upload Files</Button>
     </Upload>
