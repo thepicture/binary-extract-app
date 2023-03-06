@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/binary-extract-app/static/css/main.06472164.css",
-    "main.js": "/binary-extract-app/static/js/main.dc817714.js",
+    "main.js": "/binary-extract-app/static/js/main.aa703703.js",
     "index.html": "/binary-extract-app/index.html",
     "main.06472164.css.map": "/binary-extract-app/static/css/main.06472164.css.map",
-    "main.dc817714.js.map": "/binary-extract-app/static/js/main.dc817714.js.map"
+    "main.aa703703.js.map": "/binary-extract-app/static/js/main.aa703703.js.map"
   },
   "entrypoints": [
     "static/css/main.06472164.css",
-    "static/js/main.dc817714.js"
+    "static/js/main.aa703703.js"
   ]
 }
