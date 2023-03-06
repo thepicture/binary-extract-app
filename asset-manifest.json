@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/binary-extract-app/static/css/main.06472164.css",
+    "main.js": "/binary-extract-app/static/js/main.dc817714.js",
+    "index.html": "/binary-extract-app/index.html",
+    "main.06472164.css.map": "/binary-extract-app/static/css/main.06472164.css.map",
+    "main.dc817714.js.map": "/binary-extract-app/static/js/main.dc817714.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.06472164.css",
+    "static/js/main.dc817714.js"
+  ]
+}
