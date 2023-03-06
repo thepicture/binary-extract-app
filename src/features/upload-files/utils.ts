@@ -46,3 +46,22 @@ export const MIDI_PARSE = (array: number[]) => {
     type: "audio/midi",
   };
 };
+
+export const RIFF_PARSE = (array: number[]) => {
+  return {
+    chunkLength:
+      4 +
+      parseInt(
+        array
+          .slice(4, 4 + 4)
+          .reverse()
+          .map((value) => value.toString(16))
+          .join(""),
+        16
+      ),
+    name: `${`${Date.now().toString()}_${Math.random()
+      .toString()
+      .slice(2)}`}.wav`,
+    type: "audio/wav",
+  };
+};
