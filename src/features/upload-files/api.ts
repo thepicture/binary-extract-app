@@ -1,59 +1,60 @@
 import { unzipRaw } from "unzipit";
 
-import { BINARY_PARSERS, ZIP_MAGIC } from "./config";
+import { BINARY_PARSERS } from "./config";
+import { isArchive } from "./utils";
 
-export const parseContent = async (array: number[], parsedFiles: File[]) => {
-  for (let i = 0; i < array.length; i++) {
-    if (await isArchive(array.slice(i, i + 4))) {
-      try {
-        const zip = await unzipRaw(new Uint8Array(array.slice(i)));
-        const entries = zip.entries;
+export class BinaryParser extends EventTarget {
+  files: File[] = [];
 
-        for (const entry of entries) {
-          await parseContent(
-            Array.from(new Uint8Array(await entry.arrayBuffer())),
-            parsedFiles
-          );
+  async parseBinary(array: number[]): Promise<File[]> {
+    await this.parseContent(array);
+
+    return this.files;
+  }
+
+  async parseContent(array: number[]): Promise<void> {
+    for (let i = 0; i < array.length; i++) {
+      if (await isArchive(array.slice(i, i + 4))) {
+        try {
+          const zip = await unzipRaw(new Uint8Array(array.slice(i)));
+          const entries = zip.entries;
+
+          for (const entry of entries) {
+            await this.parseContent(
+              Array.from(new Uint8Array(await entry.arrayBuffer()))
+            );
+          }
+
+          break;
+        } catch (error) {
+          console.log(`malformed zip at offset ${i}`);
         }
 
-        break;
-      } catch (error) {
-        console.log(`malformed zip at offset ${i}`);
+        continue;
       }
 
-      continue;
+      const parseKey = array
+        .slice(i, i + 4)
+        .map((value) => value.toString(16).padStart(2, "0"))
+        .join("");
+      const parse = BINARY_PARSERS[parseKey];
+
+      if (!parse) {
+        continue;
+      }
+
+      const { name, type, chunkLength } = parse(array.slice(i));
+
+      this.files.push(
+        new File([new Uint8Array(array.slice(i, i + chunkLength))], name, {
+          type,
+        })
+      );
+
+      i += chunkLength - 1;
+      this.dispatchEvent(
+        new CustomEvent("progress", { detail: (i / array.length) * 100 })
+      );
     }
-
-    const parseKey = array
-      .slice(i, i + 4)
-      .map((value) => value.toString(16).padStart(2, "0"))
-      .join("");
-    const parse = BINARY_PARSERS[parseKey];
-
-    if (!parse) {
-      continue;
-    }
-
-    const { name, type, chunkLength } = parse(array.slice(i));
-
-    parsedFiles.push(
-      new File([new Uint8Array(array.slice(i, i + chunkLength))], name, {
-        type,
-      })
-    );
-
-    i += chunkLength - 1;
   }
-};
-
-export const parseBinary = async (array: number[], parsedFiles: File[]) => {
-  await parseContent(array, parsedFiles);
-};
-
-export const isArchive = async (array: number[]) => {
-  return areMagicBytesSame(Array.from(array), ZIP_MAGIC);
-};
-
-export const areMagicBytesSame = (array1: number[], array2: number[]) => {
-  return array1.every((value, index) => array2[index] === value);
-};
+}
