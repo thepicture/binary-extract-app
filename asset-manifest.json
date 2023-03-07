@@ -1,13 +1,17 @@
 {
   "files": {
     "main.css": "/binary-extract-app/static/css/main.06472164.css",
-    "main.js": "/binary-extract-app/static/js/main.aa703703.js",
+    "main.js": "/binary-extract-app/static/js/main.e6bdb13e.js",
+    "static/js/48.d9f8a709.chunk.js": "/binary-extract-app/static/js/48.d9f8a709.chunk.js",
+    "static/js/301.8a47a8a0.chunk.js": "/binary-extract-app/static/js/301.8a47a8a0.chunk.js",
     "index.html": "/binary-extract-app/index.html",
     "main.06472164.css.map": "/binary-extract-app/static/css/main.06472164.css.map",
-    "main.aa703703.js.map": "/binary-extract-app/static/js/main.aa703703.js.map"
+    "main.e6bdb13e.js.map": "/binary-extract-app/static/js/main.e6bdb13e.js.map",
+    "48.d9f8a709.chunk.js.map": "/binary-extract-app/static/js/48.d9f8a709.chunk.js.map",
+    "301.8a47a8a0.chunk.js.map": "/binary-extract-app/static/js/301.8a47a8a0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.06472164.css",
-    "static/js/main.aa703703.js"
+    "static/js/main.e6bdb13e.js"
   ]
 }
