@@ -1,3 +1,5 @@
+import { ZIP_MAGIC } from "./config";
+
 export const bytesToDecimal = (bytes: number[]) =>
   (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 
@@ -64,4 +66,12 @@ export const RIFF_PARSE = (array: number[]) => {
       .slice(2)}`}.wav`,
     type: "audio/wav",
   };
+};
+
+export const isArchive = async (array: number[]) => {
+  return areMagicBytesSame(Array.from(array), ZIP_MAGIC);
+};
+
+export const areMagicBytesSame = (array1: number[], array2: number[]) => {
+  return array1.every((value, index) => array2[index] === value);
 };
