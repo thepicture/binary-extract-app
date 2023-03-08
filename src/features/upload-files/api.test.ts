@@ -118,7 +118,7 @@ describe("upload-files/api", () => {
     expect(files.length).toBe(expected);
   });
 
-  it("can read 2 wav files when riff bytes are presented", async () => {
+  it("unpacks 2 wav files when riff bytes are presented", async () => {
     const binary = [...RIFF_BYTES, ...RIFF_BYTES];
     const expected = 2;
 
@@ -127,7 +127,7 @@ describe("upload-files/api", () => {
     expect(files.length).toBe(expected);
   });
 
-  it("can read 3 files when types are mixed", async () => {
+  it("unpacks 3 files when types are mixed", async () => {
     const binary = [...RIFF_BYTES, ...TEST_BINARY_MIDI_FILE, ...RIFF_BYTES];
     const expected = 3;
 

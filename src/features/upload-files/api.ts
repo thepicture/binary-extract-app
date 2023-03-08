@@ -7,30 +7,30 @@ export class BinaryParser extends EventTarget {
   files: File[] = [];
 
   async parseBinary(array: number[]): Promise<File[]> {
+    this.resetFiles();
+
     await this.parseContent(array);
 
     return this.files;
   }
 
-  async parseContent(array: number[]): Promise<void> {
+  private async parseContent(array: number[]): Promise<void> {
     for (let i = 0; i < array.length; i++) {
       if (await isArchive(array.slice(i, i + 4))) {
         try {
           const zip = await unzipRaw(new Uint8Array(array.slice(i)));
-          const entries = zip.entries;
+          const { entries } = zip;
 
           for (const entry of entries) {
             await this.parseContent(
               Array.from(new Uint8Array(await entry.arrayBuffer()))
             );
           }
-
-          break;
         } catch (error) {
           console.log(`malformed zip at offset ${i}`);
+        } finally {
+          continue;
         }
-
-        continue;
       }
 
       const parseKey = array
@@ -56,5 +56,9 @@ export class BinaryParser extends EventTarget {
         new CustomEvent("progress", { detail: (i / array.length) * 100 })
       );
     }
+  }
+
+  private resetFiles() {
+    this.files = [];
   }
 }
