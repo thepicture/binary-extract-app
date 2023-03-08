@@ -9,6 +9,7 @@ export const SOURCE_CODE_LINK =
 export const INITIAL_ZIP_LENGTH = 4;
 
 export const ZIP_MAGIC = [0x50, 0x4b, 0x03, 0x04];
+export const ZIP_MAGIC_END = [0x50, 0x4b, 0x05, 0x06];
 
 export const BINARY_PARSERS: BinaryParsers = {
   "4d5d6864": MIDI_PARSE,

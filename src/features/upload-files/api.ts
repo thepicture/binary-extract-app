@@ -1,7 +1,7 @@
 import { unzipRaw } from "unzipit";
 
-import { BINARY_PARSERS } from "./config";
-import { isArchive } from "./utils";
+import { BINARY_PARSERS, ZIP_MAGIC_END } from "./config";
+import { areMagicBytesSame, isArchive } from "./utils";
 
 export class BinaryParser extends EventTarget {
   files: File[] = [];
@@ -17,19 +17,30 @@ export class BinaryParser extends EventTarget {
   private async parseContent(array: number[]): Promise<void> {
     for (let i = 0; i < array.length; i++) {
       if (await isArchive(array.slice(i, i + 4))) {
-        try {
-          const zip = await unzipRaw(new Uint8Array(array.slice(i)));
-          const { entries } = zip;
-
-          for (const entry of entries) {
-            await this.parseContent(
-              Array.from(new Uint8Array(await entry.arrayBuffer()))
-            );
+        for (let j = 0; ; j++) {
+          if (j > array.length) {
+            break;
           }
-        } catch (error) {
-          console.log(`malformed zip at offset ${i}`);
-        } finally {
-          continue;
+
+          try {
+            const chunkLength = getZipChunkLength(/* Start index */ i, array);
+
+            const zip = await unzipRaw(
+              new Uint8Array(array.slice(i, i + chunkLength + j))
+            );
+
+            const { entries } = zip;
+
+            for (const entry of entries) {
+              await this.parseContent(
+                Array.from(new Uint8Array(await entry.arrayBuffer()))
+              );
+            }
+
+            break;
+          } catch (error) {
+            continue;
+          }
         }
       }
 
@@ -62,3 +73,19 @@ export class BinaryParser extends EventTarget {
     this.files = [];
   }
 }
+
+const getZipChunkLength = (startIndex: number, array: number[]) => {
+  let zipChunkLength = 3;
+
+  for (let i = startIndex; ; i++) {
+    zipChunkLength++;
+
+    if (areMagicBytesSame(array.slice(i, i + 4), ZIP_MAGIC_END)) {
+      break;
+    } else if (i > array.length) {
+      throw new RangeError("malformed zip file");
+    }
+  }
+
+  return zipChunkLength;
+};
