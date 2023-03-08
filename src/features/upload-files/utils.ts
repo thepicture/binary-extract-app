@@ -77,3 +77,16 @@ export const isArchive = async (array: number[]) => {
 export const areMagicBytesSame = (array1: number[], array2: number[]) => {
   return array1.every((value, index) => array2[index] === value);
 };
+
+export const JPEG_PARSE = (array: number[]) => {
+  return {
+    chunkLength:
+      array.findIndex(
+        (_, index, array) => array[index] === 0xff && array[index + 1] === 0xd9
+      ) + 1,
+    name: `${`${Date.now().toString()}_${Math.random()
+      .toString()
+      .slice(2)}`}.jpg`,
+    type: "image/jpeg",
+  };
+};
