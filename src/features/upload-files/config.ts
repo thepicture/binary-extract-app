@@ -1,4 +1,4 @@
-import { BinaryParsers, MIDI_PARSE, RIFF_PARSE, bytesToDecimal } from "./utils";
+import { BinaryParsers, MIDI_PARSE, RIFF_PARSE } from "./utils";
 
 export const FIRST_4_BYTES = [0, 4];
 export const FIRST_7_BYTES = [0, 7];
@@ -9,6 +9,7 @@ export const SOURCE_CODE_LINK =
 export const INITIAL_ZIP_LENGTH = 4;
 
 export const ZIP_MAGIC = [0x50, 0x4b, 0x03, 0x04];
+export const ZIP_MAGIC_END = [0x50, 0x4b, 0x05, 0x06];
 
 export const BINARY_PARSERS: BinaryParsers = {
   "4d5d6864": MIDI_PARSE,
@@ -157,7 +158,7 @@ export const ARCHIVE_WITH_3_FILES = [
 export const RIFF_BYTES = [
   // RIFF header
   0x52, 0x49, 0x46, 0x46,  // "RIFF"
-  0x24, 0x08, 0x00, 0x00,  // Chunk size (36 bytes total)
+  0x24, 0x00, 0x00, 0x00,  // Chunk size (36 bytes total)
   0x57, 0x41, 0x56, 0x45,  // "WAVE"
 
   // Format subchunk
