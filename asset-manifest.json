@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/binary-extract-app/static/css/main.06472164.css",
-    "main.js": "/binary-extract-app/static/js/main.5108aaa7.js",
-    "static/js/48.d5b48cc1.chunk.js": "/binary-extract-app/static/js/48.d5b48cc1.chunk.js",
+    "main.js": "/binary-extract-app/static/js/main.8206eac2.js",
+    "static/js/48.18ded4d6.chunk.js": "/binary-extract-app/static/js/48.18ded4d6.chunk.js",
     "static/js/301.8a47a8a0.chunk.js": "/binary-extract-app/static/js/301.8a47a8a0.chunk.js",
     "index.html": "/binary-extract-app/index.html",
     "main.06472164.css.map": "/binary-extract-app/static/css/main.06472164.css.map",
-    "main.5108aaa7.js.map": "/binary-extract-app/static/js/main.5108aaa7.js.map",
-    "48.d5b48cc1.chunk.js.map": "/binary-extract-app/static/js/48.d5b48cc1.chunk.js.map",
+    "main.8206eac2.js.map": "/binary-extract-app/static/js/main.8206eac2.js.map",
+    "48.18ded4d6.chunk.js.map": "/binary-extract-app/static/js/48.18ded4d6.chunk.js.map",
     "301.8a47a8a0.chunk.js.map": "/binary-extract-app/static/js/301.8a47a8a0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.06472164.css",
-    "static/js/main.5108aaa7.js"
+    "static/js/main.8206eac2.js"
   ]
 }
