@@ -90,3 +90,19 @@ export const JPEG_PARSE = (array: number[]) => {
     type: "image/jpeg",
   };
 };
+
+export const PNG_PARSE = (array: number[]) => {
+  return {
+    chunkLength:
+      array.findIndex((_, index, array) =>
+        [0xae, 0x42, 0x60, 0x82].every(
+          (magicValue, magicValueIndex) =>
+            array[index + magicValueIndex] === magicValue
+        )
+      ) + 1,
+    name: `${`${Date.now().toString()}_${Math.random()
+      .toString()
+      .slice(2)}`}.jpg`,
+    type: "image/jpeg",
+  };
+};

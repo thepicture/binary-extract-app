@@ -1,4 +1,10 @@
-import { BinaryParsers, JPEG_PARSE, MIDI_PARSE, RIFF_PARSE } from "./utils";
+import {
+  BinaryParsers,
+  JPEG_PARSE,
+  MIDI_PARSE,
+  PNG_PARSE,
+  RIFF_PARSE,
+} from "./utils";
 
 export const FIRST_4_BYTES = [0, 4];
 export const FIRST_7_BYTES = [0, 7];
@@ -19,6 +25,7 @@ export const BINARY_PARSERS: BinaryParsers = {
   ffd8ffe0: JPEG_PARSE,
   ffd8ffee: JPEG_PARSE,
   ffd8ffe1: JPEG_PARSE,
+  ae426082: PNG_PARSE,
 };
 
 export const TEST_BINARY_3_MIDI_FILES = [
@@ -186,4 +193,8 @@ export const RIFF_BYTES = [
 
 export const JPEG_BYTES = [
   0xff, 0xd8, 0xff, 0xee, 0xaa, 0xbb, 0xcc, 0xaa, 0xbb, 0xcc, 0xff, 0xd9,
+];
+
+export const PNG_BYTES = [
+  137, 80, 78, 71, 13, 10, 26, 10, 111, 222, 333, 0xae, 0x42, 0x60, 0x82,
 ];
