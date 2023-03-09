@@ -6,6 +6,8 @@ import {
   RIFF_BYTES,
   TEST_BINARY_3_MIDI_FILES,
   TEST_BINARY_MIDI_FILE,
+  TIFF_BYTES_BIG_ENDIAN,
+  TIFF_BYTES_LITTLE_ENDIAN,
 } from "./config";
 
 describe("upload-files/api", () => {
@@ -140,6 +142,20 @@ describe("upload-files/api", () => {
   it("unpacks 2 files when jpeg goes after jpeg", async () => {
     const binary = [...JPEG_BYTES, ...JPEG_BYTES];
     const expected = 2;
+
+    const files = await binaryParser.parseBinary(binary);
+
+    expect(files.length).toBe(expected);
+  });
+
+  it("unpacks 4 files when they are .tiff with any endianess", async () => {
+    const binary = [
+      ...TIFF_BYTES_BIG_ENDIAN,
+      ...TIFF_BYTES_BIG_ENDIAN,
+      ...TIFF_BYTES_LITTLE_ENDIAN,
+      ...TIFF_BYTES_LITTLE_ENDIAN,
+    ];
+    const expected = 4;
 
     const files = await binaryParser.parseBinary(binary);
 
